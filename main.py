@@ -2,43 +2,51 @@ from cProfile import run
 import pygame
 from pygame.locals import *
 
+class Snake:
+    def __init__(self, parent_screen):
+        self.parent_screen = parent_screen
+        self.block = pygame.image.load("resources/stone-zhang-icon.png").convert()
+        self.x = 100
+        self.y = 100
 
-def draw_block():
-    surface.fill((102, 2, 0))
-    surface.blit(block, (block_x, block_y))
-    pygame.display.flip()
+    def draw(self, s):
+        self.surface.fill((102, 2, 0))
+        self.parent_screen.blit(self.block, (self.x, self.y))
+        pygame.display.flip()
+    
+    def move_left(self):
+        self.x -= 10
 
-if __name__ == "__main__":
-    pygame.init()
+class Game:
+    def __init__(self):
+        pygame.init()
+        self.surface = pygame.display.set_mode((1000, 500))
+        self.surface.fill((102, 2, 0))
+        self.snake = Snake(self.surface)
+        self.snake.draw()
 
-    surface = pygame.display.set_mode((1000, 500))
-    surface.fill((102, 2, 0))
+    def run(self):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == KEYDOWN:
+                    if event.key == K_ESCAPE:
+                        running = False
+                    if event.key == K_LEFT:
+                        self.snake.move_left()
 
-    block = pygame.image.load("resources/stone-zhang-icon.png").convert()
-    block_x = 100
-    block_y = 100
-    surface.blit(block, (block_x, block_y))
-    pygame.display.flip()
-   
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:
+                    if event.key == K_RIGHT:
+                        self.snake.move_right()
+
+                    if event.key == K_UP:
+                        self.snake.move_up()
+
+                    if event.key == K_DOWN:
+                        self.snake.move_down()
+
+                elif event.type == QUIT:
                     running = False
 
-                if event.key == K_UP:
-                    block_y -= 10
-                    draw_block()
-                if event.key == K_DOWN:
-                    block_y += 10
-                    draw_block()
-                if event.key == K_LEFT:
-                    block_x -= 10
-                    draw_block()
-                if event.key == K_RIGHT:
-                    block_x += 10
-                    draw_block()
-
-            elif event.type == QUIT:
-                running = False
+if __name__ == "__main__":
+    game = Game()
+    game.run()
