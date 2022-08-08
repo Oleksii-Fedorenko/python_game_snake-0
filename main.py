@@ -1,4 +1,3 @@
-from cProfile import run
 import pygame
 from pygame.locals import *
 
@@ -9,13 +8,26 @@ class Snake:
         self.x = 100
         self.y = 100
 
-    def draw(self, s):
-        self.surface.fill((102, 2, 0))
+    def draw(self):
+        self.parent_screen.fill((102, 2, 0))
         self.parent_screen.blit(self.block, (self.x, self.y))
         pygame.display.flip()
     
     def move_left(self):
         self.x -= 10
+        self.draw()
+
+    def move_right(self):
+        self.x += 10
+        self.draw()
+
+    def move_up(self):
+        self.y -= 10
+        self.draw()
+
+    def move_down(self):
+        self.y += 10
+        self.draw()
 
 class Game:
     def __init__(self):
@@ -32,6 +44,7 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         running = False
+
                     if event.key == K_LEFT:
                         self.snake.move_left()
 
