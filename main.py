@@ -102,7 +102,7 @@ class Game:
 
     def play_background_music(self):
         pygame.mixer.music.load("resources/bg_music.wav")
-        pygame.mixer.music.play()
+        pygame.mixer.music.play(-1, 0)
 
     def play_sound(self, sound):
         sound = pygame.mixer.Sound(f"resources/{sound}.wav")
@@ -193,7 +193,7 @@ class Game:
                 pause = True
                 self.reset()
 
-            time.sleep(0.25)
+            time.sleep(0.15)
 
 
 if __name__ == "__main__":
